@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc://192.168.129.1:3306/imooc-vidoes-dev
+    username: root
+    password: 123456

@@ -1,6 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc://192.168.129.1:3306/imooc-vidoes-dev
+    url: jdbc:mysql://localhost:3306/imooc-video-dev?serverTimezone=UTC
     username: root
     password: 123456
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

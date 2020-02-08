@@ -25,4 +25,40 @@ public class UsersMapperTest {
         Users result = usersMapper.selectOne(user);
         Assert.assertNotNull(result);
     }
+
+    @Test
+    public void updateBySelective(){
+        Users user = new Users();
+        user.setId("1581066029673843868");
+        user.setFaceImage("haha.jpg");
+//        user.setUsername("guoxicheng");
+//        user.setNickname("xicheng");
+        usersMapper.updateBySelective(user);
+    }
+
+    @Test
+    public void selectOneById(){
+        Users user = usersMapper.selectOneById("1581066029673843868");
+        Assert.assertNotNull(user);
+    }
+
+    @Test
+    public void addFansCount(){
+        usersMapper.addFansCount("1581066029673843868");
+    }
+
+    @Test
+    public void addFollersCount(){
+        usersMapper.addFollersCount("1581066029673843868");
+    }
+
+    @Test
+    public void reduceFansCount(){
+        usersMapper.reduceFansCount("1581066029673843868");
+    }
+
+    @Test
+    public void reduceFollersCount(){
+        usersMapper.reduceFollersCount("1581066029673843868");
+    }
 }

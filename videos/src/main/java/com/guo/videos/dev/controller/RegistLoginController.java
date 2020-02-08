@@ -2,19 +2,27 @@ package com.guo.videos.dev.controller;
 
 import com.guo.videos.Utils.JsonResult;
 import com.guo.videos.Utils.MD5Utils;
+import com.guo.videos.Utils.RedisOperator;
 import com.guo.videos.dev.pojo.Users;
+import com.guo.videos.dev.pojo.vo.UsersVO;
 import com.guo.videos.dev.service.UserService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 public class RegistLoginController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisOperator redis;
 
     @PostMapping("/regist")
     public JsonResult regist(@RequestBody Users user) throws Exception{
@@ -39,8 +47,18 @@ public class RegistLoginController {
             return JsonResult.errorMsg("用户名已存在，请换一个再试");
         }
         user.setPassword("");
+        UsersVO usersVO = setUserRedisSessionToken(user);
+        return JsonResult.ok(usersVO);
+    }
 
-        return JsonResult.ok(user);
+    private UsersVO setUserRedisSessionToken(Users userModel){
+        String uniqueToken = UUID.randomUUID().toString();
+        redis.set("user-redis-session" + ":" + userModel.getId(),uniqueToken,1000*60*30);
+
+        UsersVO usersVO = new UsersVO();
+        BeanUtils.copyProperties(userModel,usersVO);
+        usersVO.setUserToken(uniqueToken);
+        return usersVO;
     }
 
     @PostMapping("/login")
@@ -60,7 +78,8 @@ public class RegistLoginController {
         // 3. 返回
         if (userResult != null) {
             userResult.setPassword("");
-            return JsonResult.ok(userResult);
+            UsersVO usersVO = setUserRedisSessionToken(userResult);
+            return JsonResult.ok(usersVO);
         } else {
             return JsonResult.errorMsg("用户名或密码不正确, 请重试...");
         }
@@ -68,6 +87,7 @@ public class RegistLoginController {
 
     @PostMapping("/logout")
     public JsonResult logout(String userId) throws Exception {
+        redis.del("user-redis-session" + ":" + userId);
         return JsonResult.ok();
     }
 }

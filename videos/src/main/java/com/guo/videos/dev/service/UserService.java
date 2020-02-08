@@ -1,6 +1,7 @@
 package com.guo.videos.dev.service;
 
 import com.guo.videos.dev.pojo.Users;
+import com.guo.videos.dev.pojo.UsersReport;
 
 public interface UserService {
     //判断用户名是否存在
@@ -11,4 +12,25 @@ public interface UserService {
 
     //用户登录
     Users queryUserForLogin(String username, String password);
+
+    //修改用户信息
+    void updateUserInfo(Users user);
+
+    //查询用户信息
+    Users queryUserInfo(String userId);
+
+    //查询用户是否喜欢点赞视频
+    boolean isUserLikeVideo(String userId, String videoId);
+
+    //增加用户和粉丝的关系
+    void saveUserFanRelation(String userId,String fanId);
+
+    //删除用户和粉丝的关系
+    void deleteUserFanRelation(String userId,String fanId);
+
+    //查询用户是否关注
+    boolean queryIfFollow(String userId,String fanId);
+
+    //举报用户
+    public void reportUser(UsersReport userReport);
 }

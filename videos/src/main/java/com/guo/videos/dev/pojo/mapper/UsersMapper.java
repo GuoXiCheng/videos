@@ -9,5 +9,16 @@ public interface UsersMapper {
 
     void insertOne(Users user);
 
+    void updateBySelective(Users user);
+
+    Users selectOneById(String userId);
+
+    void addFansCount(String userId);
+
+    void addFollersCount(String userId);
+
+    void reduceFansCount(String userId);
+
+    void reduceFollersCount(String userId);
 
 }

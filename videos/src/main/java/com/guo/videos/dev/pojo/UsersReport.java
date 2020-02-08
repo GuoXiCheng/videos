@@ -28,7 +28,7 @@ public class UsersReport {
     private String content;
 
     //举报人的id
-    private String userid;
+    private String userId;
 
     //举报时间
     @Column(name = "create_date")

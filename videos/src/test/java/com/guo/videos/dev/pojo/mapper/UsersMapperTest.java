@@ -61,4 +61,15 @@ public class UsersMapperTest {
     public void reduceFollersCount(){
         usersMapper.reduceFollersCount("1581066029673843868");
     }
+
+    @Test
+    public void addReceiveLikeCount(){
+        usersMapper.addReceiveLikeCount("1581066029673843868");
+    }
+
+    @Test
+    public void reduceReceiveLikeCount(){
+        usersMapper.reduceReceiveLikeCount("1581066029673843868");
+    }
+
 }

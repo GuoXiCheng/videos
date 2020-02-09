@@ -9,4 +9,12 @@
     <select id="selectByEntity" parameterType="com.guo.videos.dev.pojo.UsersLikeVideos" resultMap="BaseResultMap">
         select * from users_like_videos where user_id = #{userId} and video_id=#{videoId}
     </select>
+
+    <insert id="insertOne" parameterType="com.guo.videos.dev.pojo.UsersLikeVideos" >
+        insert into users_like_videos values(#{id},#{userId},#{videoId})
+    </insert>
+
+    <delete id="deleteByEntity" parameterType="com.guo.videos.dev.pojo.UsersLikeVideos">
+        delete from users_like_videos where user_id=#{userId} and video_id=#{videoId}
+    </delete>
 </mapper>

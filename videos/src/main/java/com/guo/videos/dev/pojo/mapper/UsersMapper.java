@@ -21,4 +21,7 @@ public interface UsersMapper {
 
     void reduceFollersCount(String userId);
 
+    void addReceiveLikeCount(String userId);
+
+    void reduceReceiveLikeCount(String userId);
 }

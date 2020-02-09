@@ -1,5 +1,6 @@
 package com.guo.videos.dev.pojo.mapper;
 
+import com.guo.videos.Utils.KeyUtil;
 import com.guo.videos.dev.pojo.UsersLikeVideos;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,5 +25,23 @@ public class UsersLikeVideosMapperTest {
         usersLikeVideos.setVideoId("200127HGC54CB1GC");
         List<UsersLikeVideos> result = usersLikeVideosMapper.selectByEntity(usersLikeVideos);
         Assert.assertEquals(1,result.size());
+    }
+
+    @Test
+    public void insertOne(){
+        UsersLikeVideos usersLikeVideos = new UsersLikeVideos();
+        String id = KeyUtil.genUniqueKey();
+        usersLikeVideos.setId(id);
+        usersLikeVideos.setUserId("111222");
+        usersLikeVideos.setVideoId("333444");
+        usersLikeVideosMapper.insertOne(usersLikeVideos);
+    }
+
+    @Test
+    public void deleteByEntity(){
+        UsersLikeVideos usersLikeVideos = new UsersLikeVideos();
+        usersLikeVideos.setUserId("111222");
+        usersLikeVideos.setVideoId("333444");
+        usersLikeVideosMapper.deleteByEntity(usersLikeVideos);
     }
 }

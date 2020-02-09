@@ -62,4 +62,10 @@
     <update id="reduceFollersCount" parameterType="java.lang.String">
         update users set follow_counts = follow_counts - 1 where id=#{userId}
     </update>
+    <update id="addReceiveLikeCount" parameterType="java.lang.String" >
+        update users set receive_like_counts = receive_like_counts + 1 where id=#{userId}
+    </update>
+    <update id="reduceReceiveLikeCount" parameterType="java.lang.String">
+        update users set receive_like_counts = receive_like_counts - 1 where id=#{userId}
+    </update>
 </mapper>

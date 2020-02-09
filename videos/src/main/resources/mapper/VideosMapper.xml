@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.videos.dev.pojo.mapper.VideosMapper">
+    <resultMap id="BaseResultMap" type="com.guo.videos.dev.pojo.Videos">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="audio_id" jdbcType="VARCHAR" property="audioId" />
+        <result column="video_desc" jdbcType="VARCHAR" property="videoDesc" />
+        <result column="video_path" jdbcType="VARCHAR" property="videoPath" />
+        <result column="video_seconds" jdbcType="REAL" property="videoSeconds" />
+        <result column="video_width" jdbcType="INTEGER" property="videoWidth" />
+        <result column="video_height" jdbcType="INTEGER" property="videoHeight" />
+        <result column="cover_path" jdbcType="VARCHAR" property="coverPath" />
+        <result column="like_counts" jdbcType="BIGINT" property="likeCounts" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.guo.videos.dev.pojo.Videos">
+        insert into videos (
+                      id,
+            <trim suffixOverrides=",">
+                  <if test="userId !='' and userId != null">
+                      user_id,
+                  </if>
+                  <if test="audioId !='' and audioId != null">
+                      audio_id,
+                  </if>
+                  <if test="videoDesc !='' and videoDesc != null">
+                      video_desc,
+                  </if>
+                  <if test="videoPath !='' and videoPath != null">
+                      video_path,
+                  </if>
+                  <if test="videoSeconds != null">
+                      video_seconds,
+                  </if>
+                  <if test="videoWidth != null">
+                      video_width,
+                  </if>
+                  <if test="videoHeight != null">
+                      video_height,
+                  </if>
+                  <if test="coverPath !='' and coverPath != null">
+                      cover_path,
+                  </if>
+                  <if test="likeCounts != null">
+                      like_counts,
+                  </if>
+                  <if test="status != null">
+                      status,
+                  </if>
+                  <if test="createTime != null">
+                      create_time
+                  </if>
+            </trim>
+                ) values(
+                        #{id},
+            <trim suffixOverrides=",">
+                    <if test="userId !='' and userId != null">
+                        #{userId},
+                    </if>
+                    <if test="audioId !='' and audioId != null">
+                        #{audioId},
+                    </if>
+                    <if test="videoDesc !='' and videoDesc != null">
+                        #{videoDesc},
+                    </if>
+                    <if test="videoPath !='' and videoPath != null">
+                        #{videoPath},
+                    </if>
+                    <if test="videoSeconds != null">
+                        #{videoSeconds},
+                    </if>
+                    <if test="videoWidth != null">
+                        #{videoWidth},
+                    </if>
+                    <if test="videoHeight != null">
+                        #{videoHeight},
+                    </if>
+                    <if test="coverPath !='' and coverPath != null">
+                        #{coverPath},
+                    </if>
+                    <if test="likeCounts != null">
+                        #{likeCounts},
+                    </if>
+                    <if test="status != null">
+                        #{status},
+                    </if>
+                    <if test="createTime != null">
+                        #{createTime}
+                    </if>
+            </trim>
+        )
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.guo.videos.dev.pojo.Videos">
+        update videos set
+        <trim suffixOverrides=",">
+            <if test="userId !='' and userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="audioId !='' and audioId != null">
+                audio_id = #{audioId},
+            </if>
+            <if test="videoDesc !='' and videoDesc != null">
+                video_desc = #{videoDesc},
+            </if>
+            <if test="videoPath !='' and videoPath != null">
+                video_path = #{videoPath},
+            </if>
+            <if test="videoSeconds != null">
+                video_seconds = #{videoSeconds},
+            </if>
+            <if test="videoWidth != null">
+                video_width = #{videoWidth},
+            </if>
+            <if test="videoHeight != null">
+                video_height = #{videoHeight},
+            </if>
+            <if test="coverPath !='' and coverPath != null">
+                cover_path = #{coverPath},
+            </if>
+            <if test="likeCounts != null">
+                like_counts = #{likeCounts},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime}
+            </if>
+        </trim>
+        where id= #{id}
+    </update>
+
+    <select id="queryAllVideos" resultMap="BaseResultMap" parameterType="String">
+        select v.*,u.face_image as face_image,u.nickname as nickname from videos v
+        left join users u on u.id = v.user_id
+        where
+        1 = 1
+        <if test = "videoDesc !=null and videoDesc != '' ">
+            and v.video_desc like '%${videoDesc}%'
+        </if>
+        <if test="userId !=null and userId !='' ">
+            and v.user_id = #{userId}
+        </if>
+        and v.status = 1
+        order by v.create_time desc
+
+    </select>
+
+    <update id="addVideoLikeCount" parameterType="java.lang.String">
+        update videos set like_counts = like_counts+1 where id=#{videoId}
+    </update>
+    <update id="reduceVideoLikeCount" parameterType="java.lang.String">
+        update videos set like_counts = like_counts-1 where id=#{videoId}
+    </update>
+
+    <!-- 查询我喜欢的视频 -->
+    <select id = "queryMyLikeVideos" resultMap="BaseResultMap" parameterType="String">
+        select v.*,u.face_image as face_image,u.nickname as nickname from videos v
+                left join users u on v.user_id = u.id
+        where
+                v.id in (select ulv.video_id from users_like_videos ulv where ulv.user_id = #{userId})
+          and v.status = 1
+        order by v.create_time desc
+    </select>
+
+    <!-- 查询我关注的人发的视频 -->
+    <select id="queryMyFollowVideos" resultMap="BaseResultMap" parameterType="String">
+        select v.*,u.face_image as face_image,u.nickname as nickname from videos v
+                                                                              left join users u on v.user_id = u.id
+        where
+                v.user_id in (select uf.user_id from users_fans uf where uf.fan_id = #{userId})
+          and v.status = 1
+        order by v.create_time desc
+    </select>
+
+</mapper>

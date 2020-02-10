@@ -14,30 +14,37 @@ import com.guo.videos.dev.pojo.vo.CommentsVO;
 import com.guo.videos.dev.pojo.vo.VideosVO;
 import com.guo.videos.dev.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class VideoServiceImpl implements VideoService {
 
 
-    @Autowired
+    @Autowired(required = false)
     private VideosMapper videosMapper;
 
-    @Autowired
+    @Autowired(required = false)
     private SearchRecordsMapper searchRecordsMapper;
 
-    @Autowired
+    @Autowired(required = false)
     private UsersLikeVideosMapper usersLikeVideosMapper;
 
-    @Autowired
+    @Autowired(required = false)
     private UsersMapper usersMapper;
 
-    @Autowired
+    @Autowired(required = false)
     private CommentsMapper commentsMapper;
+
+    @Autowired(required = false)
+    private CommentsMapperCustom commentsMapperCustom;
+
+    @Autowired(required = false)
+    private VideoMapperCustom videoMapperCustom;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -71,7 +78,7 @@ public class VideoServiceImpl implements VideoService {
             searchRecordsMapper.insertOne(record);
         }
         PageHelper.startPage(page,pageSize);
-        List<VideosVO> list = videosMapper.queryAllVideos(desc,userId);
+        List<VideosVO> list = videoMapperCustom.queryAllVideos(desc,userId);
         PageInfo<VideosVO> pageList = new PageInfo<>(list);
         PagedResult pagedResult = new PagedResult();
         pagedResult.setPage(page);
@@ -123,7 +130,7 @@ public class VideoServiceImpl implements VideoService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public PagedResult queryMyLikeVideos(String userId, Integer page, Integer pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<VideosVO> list = videosMapper.queryMyLikeVideos(userId);
+        List<VideosVO> list = videoMapperCustom.queryMyLikeVideos(userId);
         PageInfo<VideosVO> pageList = new PageInfo<>(list);
         PagedResult pagedResult = new PagedResult();
         pagedResult.setTotal(pageList.getPages());
@@ -137,7 +144,7 @@ public class VideoServiceImpl implements VideoService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public PagedResult queryMyFollowVideos(String userId, Integer page, int pageSize) {
         PageHelper.startPage(page,pageSize);
-        List<VideosVO> list = videosMapper.queryMyFollowVideos(userId);
+        List<VideosVO> list = videoMapperCustom.queryMyFollowVideos(userId);
         PageInfo<VideosVO> pageList = new PageInfo<>(list);
         PagedResult pagedResult = new PagedResult();
         pagedResult.setTotal(pageList.getPages());
@@ -161,7 +168,7 @@ public class VideoServiceImpl implements VideoService {
     public PagedResult getAllComments(String videoId, Integer page, Integer pageSize) {
         PageHelper.startPage(page, pageSize);
 
-        List<CommentsVO> list = commentsMapper.queryComments(videoId);
+        List<CommentsVO> list = commentsMapperCustom.queryComments(videoId);
 
         for (CommentsVO c : list) {
             String timeAgo = TimeAgoUtils.format(c.getCreateTime());

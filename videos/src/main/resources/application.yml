@@ -11,5 +11,5 @@ spring:
     host: localhost
 
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath:mapper/dev/*.xml,classpath*:mapper/admin/*.xml
 

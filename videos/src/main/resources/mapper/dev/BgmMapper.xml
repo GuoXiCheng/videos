@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.videos.dev.pojo.mapper.BgmMapper">
+    <resultMap id="BaseResultMap" type="com.guo.videos.dev.pojo.Bgm">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="author" jdbcType="VARCHAR" property="author" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+    </resultMap>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from Bgm
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from Bgm where id = #{bgmId}
+    </select>
+</mapper>

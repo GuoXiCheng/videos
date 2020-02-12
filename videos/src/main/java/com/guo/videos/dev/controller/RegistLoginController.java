@@ -42,6 +42,7 @@ public class RegistLoginController {
             user.setFansCounts(0);
             user.setReceiveLikeCounts(0);
             user.setFollowCounts(0);
+            user.setFaceImage("/defaultImage/face/noneface.png");
             userService.saveUser(user);
         }else {
             return JsonResult.errorMsg("用户名已存在，请换一个再试");

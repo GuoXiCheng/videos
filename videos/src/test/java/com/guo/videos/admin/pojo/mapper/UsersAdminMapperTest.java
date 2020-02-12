@@ -1,7 +1,6 @@
 package com.guo.videos.admin.pojo.mapper;
 
 import com.guo.videos.admin.pojo.Users;
-import com.guo.videos.dev.pojo.mapper.UsersMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,14 +12,20 @@ import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class UsersMapperTest {
+public class UsersAdminMapperTest {
 
     @Autowired(required = false)
     private UsersAdminMapper usersAdminMapper;
 
     @Test
-    public void selectByEntity() {
-//        List<Users> result = usersAdminMapper.selectAll();
+    public void selectAll() {
+//        List<Users> result= usersAdminMapper.selectAll();
 //        Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void selectCount(){
+        int result = usersAdminMapper.selectCount();
+        Assert.assertEquals(10,result);
     }
 }

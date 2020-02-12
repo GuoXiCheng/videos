@@ -1,6 +1,5 @@
 package com.guo.videos.admin.service.impl;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.guo.videos.Utils.PagedResult;
 import com.guo.videos.admin.pojo.Users;
@@ -9,6 +8,7 @@ import com.guo.videos.admin.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,30 +18,19 @@ public class UsersServiceImpl implements UsersService {
     private UsersAdminMapper usersAdminMapper;
 
     @Override
-    public PagedResult queryUsers(Users user, Integer page, Integer pageSize) {
-        String username = "";
-        String nickname = "";
-        if (user != null) {
-            username = user.getUsername();
-            nickname = user.getNickname();
-        }
+    public PagedResult queryUsers(Integer page, Integer pageSize) {
 
-        PageHelper.startPage(page, pageSize);
+        List<Users> userList = usersAdminMapper.selectAll((page-1)*pageSize,pageSize);
 
-        Users users = new Users();
-        user.setUsername(username);
-        user.setNickname(nickname);
+        Integer Records = usersAdminMapper.selectCount();
+        Integer total = Records % pageSize ==0 ? (Records / pageSize) : ((Records / pageSize) + 1);
 
-        List<Users> userList = usersAdminMapper.selectByEntity(users);
+        PagedResult pagedResult = new PagedResult();
+        pagedResult.setTotal(total);
+        pagedResult.setRows(userList);
+        pagedResult.setPage(page);
+        pagedResult.setRecords(Records);
 
-        PageInfo<Users> pageList = new PageInfo<>(userList);
-
-        PagedResult grid = new PagedResult();
-        grid.setTotal(pageList.getPages());
-        grid.setRows(userList);
-        grid.setPage(page);
-        grid.setRecords(pageList.getTotal());
-
-        return grid;
+        return pagedResult;
     }
 }

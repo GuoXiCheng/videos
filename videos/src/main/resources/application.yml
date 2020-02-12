@@ -9,6 +9,15 @@ spring:
     port: 6379
     password:
     host: localhost
+  freemarker:
+    allow-request-override: false
+    cache: false
+    check-template-location: true
+    charset: utf-8
+    content-type: text/html
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+
 
 mybatis:
   mapper-locations: classpath:mapper/dev/*.xml,classpath*:mapper/admin/*.xml

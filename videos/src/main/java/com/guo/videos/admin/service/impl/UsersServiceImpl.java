@@ -1,14 +1,14 @@
 package com.guo.videos.admin.service.impl;
 
-import com.github.pagehelper.PageInfo;
 import com.guo.videos.Utils.PagedResult;
 import com.guo.videos.admin.pojo.Users;
 import com.guo.videos.admin.pojo.mapper.UsersAdminMapper;
 import com.guo.videos.admin.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +18,7 @@ public class UsersServiceImpl implements UsersService {
     private UsersAdminMapper usersAdminMapper;
 
     @Override
+    @Transactional(propagation= Propagation.SUPPORTS)
     public PagedResult queryUsers(Integer page, Integer pageSize) {
 
         List<Users> userList = usersAdminMapper.selectAll((page-1)*pageSize,pageSize);

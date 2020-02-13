@@ -91,4 +91,13 @@ public class RegistLoginController {
         redis.del("user-redis-session" + ":" + userId);
         return JsonResult.ok();
     }
+
+    @PostMapping("/wxLogin")
+    public JsonResult wxLogin(String code){
+        String appId = "wxb0c9998dbc9c3896";
+        String appSecret = "1f2223f38d8282eebd3435503cf3d12b";
+        String api = String.format("https://api.weixin.qq.com/sns/jscode2session?appid={%s}&secret={%s}&js_code={%s}&grant_type=authorization_code",appId,appSecret,code);
+
+        return JsonResult.ok();
+    }
 }

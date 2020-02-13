@@ -5,11 +5,12 @@
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <title>登录</title>
 </head>
-<body>
-    <div class="container">
+<body style="padding-top: 200px">
+    <h3 style="padding-left: 700px">短视频后台管理</h3>
+    <div class="container" style="width:500px">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <form id="loginForm" class="form-horizontal" onsubmit="return false" role="form" method="post" action="##">
+                <form id="loginForm" class="form-horizontal" onsubmit="return false" role="form" method="post" action="#">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
                         <div class="col-sm-10">
@@ -24,14 +25,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <div class="checkbox">
-                                <label><input type="checkbox" />Remember me</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default" onclick="login()">Login in</button>
+                            <button type="submit" class="btn btn-primary" onclick="login()">Login in</button>
                         </div>
                     </div>
                 </form>

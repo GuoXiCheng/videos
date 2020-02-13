@@ -6,10 +6,10 @@
         <div class="span12">
             <ul class="breadcrumb">
                 <li>
-                    <a href="#">短视频后台管理系统</a> <span class="divider">/</span>
+                    <a href="#">短视频后台管理系统</a>
                 </li>
                 <li>
-                    <a href="#">用户信息</a> <span class="divider">/</span>
+                    <a href="#">用户信息</a>
                 </li>
                 <li class="active">
                     用户列表
@@ -31,7 +31,7 @@
                 <tbody>
                 <#list result.rows as row>
                     <tr>
-                        <td>${row_index+1}</td>
+                        <td>${row_index + (result.page-1)*5+1}</td>
                         <td><img src="${row.faceImage}" width="50px"></td>
                         <td>${row.username}</td>
                         <td>${row.nickname}</td>
@@ -53,7 +53,7 @@
                     </li>
                 <#else>
                     <li>
-                        <a href="http://192.168.129.1:8080/users/showList?page=${result.page-1}">Prev</a>
+                        <a href="http://192.168.129.1:8080/users/showList?page=${result.page-1}">上一页</a>
                     </li>
                 </#if>
 
@@ -70,7 +70,7 @@
                     </li>
                 <#else>
                     <li>
-                        <a href="http://192.168.129.1:8080/users/showList?page=${result.page+1}">Prev</a>
+                        <a href="http://192.168.129.1:8080/users/showList?page=${result.page+1}">下一页</a>
                     </li>
                 </#if>
             </ul>

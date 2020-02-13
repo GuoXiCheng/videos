@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/users")
-public class UsersController {
+public class UsersAdminController {
     @Autowired(required = false)
     private UsersService usersService;
 

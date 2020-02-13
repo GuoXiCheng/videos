@@ -2,8 +2,8 @@ package com.guo.videos.enums;
 
 public enum VideoStatusEnum {
 	
-	SUCCESS(1),		// 发布成功
-	FORBID(2);		// 禁止播放，管理员操作
+	SUCCESS(0),		// 发布成功
+	FORBID(1);		// 禁止播放，管理员操作
 	
 	public final int value;
 	

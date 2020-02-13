@@ -14,7 +14,6 @@ public class Reports {
     private String dealUsername;
 
     private String dealVideoId;
-    private String videoDesc;
     private String videoPath;
     private Integer status;
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guo.videos.admin.pojo.mapper.VideoAdminMapper" >
+    <resultMap id="BaseResultMap" type="com.guo.videos.admin.pojo.vo.Reports" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="dealUsername" property="dealUsername" jdbcType="VARCHAR" />
+        <result column="dealVideoId" property="dealVideoId" jdbcType="VARCHAR" />
+        <result column="videoPath" property="videoPath" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="submitUsername" property="submitUsername" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="queryReportList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select report.id,report.title,report.content,report.deal_video_id as dealVideoId,report.create_date as createDate,dealUser.username as dealUsername,subUser.username as submitUsername,videos.video_path as videoPath,videos.status from users_report report
+        left join users dealUser on report.deal_user_id = dealUser.id
+        left join users subUser on report.userid = subUser.id
+        left join videos on report.deal_video_id = videos.id limit #{page},#{pageSize}
+    </select>
+    <select id="selectCounts" resultType="java.lang.Integer">
+        select count(*) from users_report
+    </select>
+    <select id="updateVideoStatus">
+        update videos set status = #{statusCode} where id= #{videoId}
+    </select>
+</mapper>

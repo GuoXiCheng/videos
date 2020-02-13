@@ -33,7 +33,7 @@
             <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>
         </a>
     </li>
-    <li>
+    <li class="bgm-li">
         <a href="#">
             <span class="glyphicon glyphicon-music f12" aria-hidden="true"></span>
             <span>Bgm管理</span>
@@ -41,15 +41,15 @@
         </a>
         <ul class="nav-left-container-small">
             <li>
-                <a class="J_menuItem" href="#">bgm列表</a>
+                <a class="J_menuItem" href="http://192.168.129.1:8080/video/queryBgmList">bgm列表</a>
             </li>
             <li>
-                <a class="J_menuItem" href="#">添加bgm</a>
+                <a class="J_menuItem" href="http://192.168.129.1:8080/video/showAddBgm">添加bgm</a>
             </li>
         </ul>
     </li>
     <li>
-        <a href="#">
+        <a href="http://192.168.129.1:8080/video/reportList">
             <span class="glyphicon glyphicon-exclamation-sign f12" aria-hidden="true"></span>
             <span>举报管理</span>
             <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>

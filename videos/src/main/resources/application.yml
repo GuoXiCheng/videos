@@ -17,6 +17,11 @@ spring:
     content-type: text/html
     suffix: .ftl
     template-loader-path: classpath:/templates/
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 10MB
+
 
 
 mybatis:

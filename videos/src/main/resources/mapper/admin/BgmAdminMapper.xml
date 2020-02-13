@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guo.videos.admin.pojo.mapper.BgmAdminMapper" >
+    <resultMap id="BaseResultMap" type="com.guo.videos.admin.pojo.Bgm" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="author" property="author" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="path" property="path" jdbcType="VARCHAR" />
+    </resultMap>
+    <update id="addBgm" parameterType="com.guo.videos.admin.pojo.Bgm" >
+        insert into Bgm values(#{id},#{author},#{name},#{path})
+    </update>
+    <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from Bgm limit #{page},#{pageSize}
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*) from Bgm
+    </select>
+    <delete id="deleteBgm" parameterType="java.lang.String">
+        delete from Bgm where id=#{bgmId}
+    </delete>
+</mapper>

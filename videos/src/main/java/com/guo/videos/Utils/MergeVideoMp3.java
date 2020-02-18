@@ -1,6 +1,7 @@
 package com.guo.videos.Utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -15,10 +16,11 @@ public class MergeVideoMp3 {
 		this.ffmpegEXE = ffmpegEXE;
 	}
 	
-	public void convertor(String videoInputPath, String mp3InputPath,
-			double seconds, String videoOutputPath) throws Exception {
-//		ffmpeg.exe -i 鑻忓窞澶ц￥琛�.mp4 -i bgm.mp3 -t 7 -y 鏂扮殑瑙嗛.mp4
-		List<String> command = new ArrayList<String>();
+	public void convertor(String videoInputPath, String mp3InputPath, String videoOutputPath) throws Exception {
+//		ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac -strict experimental
+//-map 0:v:0 -map 1:a:0 output.mp4
+
+		List<String> command = new ArrayList<>();
 		command.add(ffmpegEXE);
 		
 		command.add("-i");
@@ -27,10 +29,18 @@ public class MergeVideoMp3 {
 		command.add("-i");
 		command.add(mp3InputPath);
 		
-		command.add("-t");
-		command.add(String.valueOf(seconds));
+		command.add("-c:v");
+		command.add("copy");
+		command.add("-c:a");
+		command.add("aac");
+		command.add("-strict");
+		command.add("experimental");
+		command.add("-map");
+		command.add("0:v:0");
+		command.add("-map");
+		command.add("1:a:0");
 		
-		command.add("-y");
+//		command.add("-y");
 		command.add(videoOutputPath);
 		
 //		for (String c : command) {
@@ -43,11 +53,11 @@ public class MergeVideoMp3 {
 		InputStream errorStream = process.getErrorStream();
 		InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
 		BufferedReader br = new BufferedReader(inputStreamReader);
-		
+//
 		String line = "";
 		while ( (line = br.readLine()) != null ) {
 		}
-		
+
 		if (br != null) {
 			br.close();
 		}
@@ -63,7 +73,7 @@ public class MergeVideoMp3 {
 	public static void main(String[] args) {
 		MergeVideoMp3 ffmpeg = new MergeVideoMp3("C:\\ffmpeg\\bin\\ffmpeg.exe");
 		try {
-			ffmpeg.convertor("C:\\鑻忓窞澶ц￥琛�.mp4", "C:\\music.mp3", 7.1, "C:\\杩欐槸閫氳繃java鐢熶骇鐨勮棰�.mp4");
+			ffmpeg.convertor("C:/guoxicheng_videos_dev/oaVkc5D5a22Ydk_jY_KheX1W-xkM/video/wxb0c9998dbc9c3896.o6zAJs5zHv8BGR1Yg5sfaHDT6x50.ZqcW1C7nGlcS0ff2f7b33927b4f9cce15d77a55debf0.mp4", "C:/guoxicheng_videos_dev/bgm/邓壬鑫-告白之夜.mp3", "C:/guoxicheng_videos_dev/oaVkc5D5a22Ydk_jY_KheX1W-xkM/video/d554c78a-4274-403f-8464-f951bcb28fff.mp4");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

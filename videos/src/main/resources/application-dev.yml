@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/imooc-video-dev?serverTimezone=UTC
+    username: root
+    password: 123456
+  redis:
+    database: 1
+    port: 6379
+    password:
+    host: localhost
+
+
+

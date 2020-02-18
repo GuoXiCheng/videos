@@ -3,10 +3,15 @@ package com.guo.videos.dev.service;
 import com.guo.videos.Utils.PagedResult;
 import com.guo.videos.dev.pojo.Comments;
 import com.guo.videos.dev.pojo.Videos;
+import com.guo.videos.dev.pojo.vo.CommentsVO;
 
 import java.util.List;
 
 public interface VideoService {
+
+    //查询一条视频数据
+    Videos selectOneVideo();
+
     //保存视频
     String saveVideo(Videos video);
 
@@ -33,6 +38,6 @@ public interface VideoService {
     //用户留言
     void saveComment(Comments comment);
 
-    //留言分页
-    PagedResult getAllComments(String videoId, Integer page, Integer pageSize);
+    //留言
+    List<CommentsVO> getAllComments(String videoId);
 }

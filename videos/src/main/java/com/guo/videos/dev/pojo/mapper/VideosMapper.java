@@ -17,4 +17,5 @@ public interface VideosMapper {
 
     void reduceVideoLikeCount(String videoId);
 
+    Videos selectOneVideo();
 }

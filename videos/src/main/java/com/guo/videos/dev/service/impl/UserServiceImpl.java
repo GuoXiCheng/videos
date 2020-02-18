@@ -36,18 +36,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(propagation= Propagation.SUPPORTS)
-    public boolean queryUsernameIsExist(String username) {
-        Users user = new Users();
-        user.setUsername(username);
-        Users result = usersMapper.selectOne(user);
-        return result==null ? false : true;
+    public Users queryUser(String userId) {
+        return usersMapper.selectOne(userId);
     }
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED)
     public void saveUser(Users user) {
-        String userId = KeyUtil.genUniqueKey();
-        user.setId(userId);
         usersMapper.insertOne(user);
     }
 
@@ -57,7 +52,8 @@ public class UserServiceImpl implements UserService {
         Users user = new Users();
         user.setUsername(username);
         user.setPassword(password);
-        return usersMapper.selectOne(user);
+        //TODO:要使用时需要修改
+        return usersMapper.selectOne(username);
     }
 
     @Override
@@ -131,6 +127,9 @@ public class UserServiceImpl implements UserService {
         String urId = KeyUtil.genUniqueKey();
         userReport.setId(urId);
         userReport.setCreateDate(new Date());
+        if(StringUtils.isBlank(userReport.getContent())){
+            userReport.setContent("");
+        }
         usersReportMapper.insertOne(userReport);
     }
 }

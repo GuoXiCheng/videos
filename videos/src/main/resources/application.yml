@@ -1,14 +1,7 @@
+#开发和生产环节隔离spring:
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/imooc-video-dev?serverTimezone=UTC
-    username: root
-    password: 123456
-  redis:
-    database: 1
-    port: 6379
-    password:
-    host: localhost
+  profiles:
+    active: prod
   freemarker:
     allow-request-override: false
     cache: false
@@ -20,9 +13,7 @@ spring:
   servlet:
     multipart:
       max-request-size: 100MB
-      max-file-size: 10MB
-
-
+      max-file-size: 20MB
 
 mybatis:
   mapper-locations: classpath:mapper/dev/*.xml,classpath*:mapper/admin/*.xml

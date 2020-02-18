@@ -37,9 +37,9 @@ public class VideoAdminController {
     @ResponseBody
     public JsonResult bgmUpload(@RequestParam("file") MultipartFile[] files) throws IOException {
         //文件保存的命名空间
-        String fileSpace = "C:" + File.separator + "guoxicheng_videos_dev" + File.separator + "mvc-bgm";
+        String fileSpace = "C:/guoxicheng_videos_dev";
         //保存数据到数据库中的相对路径
-        String uploadPathDB = File.separator + "bgm";
+        String uploadPathDB = "/bgm";
 
         FileOutputStream fileOutputStream = null;
         InputStream inputStream;
@@ -51,7 +51,7 @@ public class VideoAdminController {
                     //文件上传的最终保存路径
                     String finalPath = fileSpace + uploadPathDB + "/" + fileName;
                     //设置数据库保存的路径
-                    uploadPathDB += (File.separator + fileName);
+                    uploadPathDB += ("/" + fileName);
 
                     File outFile = new File(finalPath);
                     if(outFile.getParentFile() != null || !outFile.getParentFile().isDirectory()){

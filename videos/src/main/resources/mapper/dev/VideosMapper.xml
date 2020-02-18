@@ -139,5 +139,7 @@
     <update id="reduceVideoLikeCount" parameterType="java.lang.String">
         update videos set like_counts = like_counts-1 where id=#{videoId}
     </update>
-
+    <select id="selectOneVideo" resultMap="BaseResultMap">
+        select * from videos where status = 0 order by rand() limit 1
+    </select>
 </mapper>

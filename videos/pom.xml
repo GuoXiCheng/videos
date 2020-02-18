@@ -17,8 +17,14 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
+    <!--添加依赖，打成war包-->
+    <packaging>war</packaging>
     <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

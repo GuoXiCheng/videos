@@ -34,7 +34,7 @@
                     <td>${row.id}</td>
                     <td>${row.author}</td>
                     <td>${row.name}</td>
-                    <td><a href="http://192.168.129.1:8080/mvc-bgm/${row.path}" style="color:deepskyblue">点我播放</a></td>
+                    <td><a href="http://192.168.129.1:8080${row.path}" style="color:deepskyblue">点我播放</a></td>
                     <td><a onclick="delBgm(this)" href="#" style="border:solid 1px">删除</a></td>
                 </tr>
                 </#list>

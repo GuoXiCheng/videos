@@ -11,14 +11,11 @@
         <result column="receive_like_counts" jdbcType="INTEGER" property="receiveLikeCounts" />
     </resultMap>
     <select id="selectOne" parameterType="com.guo.videos.dev.pojo.Users" resultMap="BaseResultMap">
-        select * from users where username = #{username,jdbcType=VARCHAR}
-            <if test="password !='' and password !=null">
-                and password = #{password,jdbcType=VARCHAR}
-            </if>
+        select * from users where id=#{userId}
     </select>
     <insert id="insertOne" parameterType="com.guo.videos.dev.pojo.Users">
-        insert into users(id,username,password,nickname,fans_counts,follow_counts,receive_like_counts)
-        values (#{id},#{username},#{password},#{nickname},#{fansCounts},#{followCounts},#{receiveLikeCounts})
+        insert into users(id,username,password,face_image,nickname,fans_counts,follow_counts,receive_like_counts)
+        values (#{id},#{username},#{password},#{faceImage},#{nickname},#{fansCounts},#{followCounts},#{receiveLikeCounts})
     </insert>
     <update id="updateBySelective" parameterType="com.guo.videos.dev.pojo.Users">
         update users

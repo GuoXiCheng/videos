@@ -87,7 +87,6 @@
                 path:path
             },
             success:function (result) {
-                console.log(result);
                 if (result.status == 200 && result.msg == "OK") {
                     alert("上传成功！");
                     window.location.reload();

@@ -29,7 +29,7 @@
         <if test="userId !=null and userId !='' ">
             and v.user_id = #{userId}
         </if>
-        and v.status = 1
+        and v.status = 0
         order by v.create_time desc
 
     </select>
@@ -40,7 +40,7 @@
               left join users u on v.user_id = u.id
         where
                 v.user_id in (select uf.user_id from users_fans uf where uf.fan_id = #{userId})
-          and v.status = 1
+          and v.status = 0
         order by v.create_time desc
     </select>
 
@@ -50,7 +50,7 @@
                                                                               left join users u on v.user_id = u.id
         where
                 v.id in (select ulv.video_id from users_like_videos ulv where ulv.user_id = #{userId})
-          and v.status = 1
+          and v.status = 0
         order by v.create_time desc
     </select>
 

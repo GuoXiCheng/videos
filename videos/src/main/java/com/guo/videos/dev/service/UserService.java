@@ -4,8 +4,8 @@ import com.guo.videos.dev.pojo.Users;
 import com.guo.videos.dev.pojo.UsersReport;
 
 public interface UserService {
-    //判断用户名是否存在
-    boolean queryUsernameIsExist(String username);
+    //根据id检索用户
+    Users queryUser(String userId);
 
     //保存用户（用户注册）
     void saveUser(Users user);
@@ -32,5 +32,5 @@ public interface UserService {
     boolean queryIfFollow(String userId,String fanId);
 
     //举报用户
-    public void reportUser(UsersReport userReport);
+    void reportUser(UsersReport userReport);
 }

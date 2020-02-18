@@ -1,9 +1,6 @@
 package com.guo.videos.Utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -32,9 +29,9 @@ public class FetchVideoCover {
 		
 		command.add(coverOutputPath);
 		
-		for (String c : command) {
-			System.out.print(c + " ");
-		}
+//		for (String c : command) {
+//			System.out.print(c + " ");
+//		}
 		
 		ProcessBuilder builder = new ProcessBuilder(command);
 		Process process = builder.start();
@@ -74,14 +71,40 @@ public class FetchVideoCover {
 		this.ffmpegEXE = ffmpegEXE;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		// 获取视频信息。
-		FetchVideoCover videoInfo = new FetchVideoCover("c:\\ffmpeg\\bin\\ffmpeg.exe");
-		try {
-			videoInfo.getCover("c:\\北京北京.avi","c:\\北京.jpg");
-
-		} catch (Exception e) {
-			e.printStackTrace();
+//		FetchVideoCover videoInfo = new FetchVideoCover("c:\\ffmpeg\\bin\\ffmpeg.exe");
+//		try {
+//			videoInfo.getCover("c:\\北京北京.avi","c:\\北京.jpg");
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		String[] videoPath = getFileName();
+		FetchVideoCover videoInfo = new FetchVideoCover("C:\\ffmpeg\\bin\\ffmpeg.exe");
+		for(int i=0; i<videoPath.length; i++){
+			String path = videoPath[i].split("\\.")[0];
+			videoInfo.getCover("C:/video/"+videoPath[i],"C:/video/" + path +".jpg");
 		}
+
+	}
+
+	public static String[] getFileName(){
+		String videoPath[] = new String[45];
+		String path = "C:/video";
+		File f= new File(path);
+		if(!f.exists()){
+			return null;
+		}
+		File file[] = f.listFiles();
+		for(int i=0; i<file.length; i++){
+			File fs = file[i];
+			if(fs.isDirectory()){
+				System.out.println(fs.getName() + "目录");
+			}else{
+				videoPath[i] = fs.getName();
+			}
+		}
+		return videoPath;
 	}
 }

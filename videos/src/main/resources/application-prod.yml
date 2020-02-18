@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://111.229.225.100:1107/guoxicheng-video-dev?serverTimezone=UTC
+    username: root
+    password: ctz7799IMgxc0319
+  redis:
+    database: 1
+    port: 6379
+    password:
+    host: 111.229.225.100
+
+
+
+

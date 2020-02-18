@@ -22,9 +22,9 @@ public class CommentsMapperTest {
         Comments comment = new Comments();
         String id = KeyUtil.genUniqueKey();
         comment.setId(id);
-        comment.setVideoId("111");
-        comment.setFromUserId("222");
-        comment.setComment("哈哈哈");
+        comment.setVideoId("200127H16319MS14");
+        comment.setFromUserId("oaVkc5D5a22Ydk_jY_KheX1W-xkM");
+        comment.setComment("111111");
         comment.setCreateTime(new Date());
         commentsMapper.insertOne(comment);
     }

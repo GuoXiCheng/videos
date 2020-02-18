@@ -44,7 +44,7 @@ public class UserController {
                     //文件上传的最终保存路径
                     String finalFacePath = fileSpace + uploadPathDB + "/" + fileName;
                     //设置数据库保存的路径
-                    uploadPathDB += ("/" + fileName);
+                    uploadPathDB = uploadPathDB + ("/" + fileName);
 
                     File outFile = new File(finalFacePath);
                     if(outFile.getParentFile() !=null || !outFile.getParentFile().isDirectory()){
@@ -77,6 +77,14 @@ public class UserController {
         user.setFaceImage(uploadPathDB);
         userService.updateUserInfo(user);
         return JsonResult.ok(uploadPathDB);
+    }
+
+    @GetMapping("/queryUserInfo")
+    public JsonResult queryUserInfo(String userId){
+        if(StringUtils.isBlank(userId))
+            return JsonResult.errorMsg("用户id不能为空");
+        Users userInfo = userService.queryUserInfo(userId);
+        return JsonResult.ok(userInfo);
     }
 
     //从数据库查询用户信息
@@ -112,6 +120,12 @@ public class UserController {
         bean.setUserLikeVideo(userLikeVideo);
 
         return JsonResult.ok(bean);
+    }
+
+    @PostMapping("/queryIsLikeVideo")
+    public JsonResult queryIsLikeVideo(String userId,String videoId){
+        boolean isUserLikeVideo = userService.isUserLikeVideo(userId,videoId);
+        return JsonResult.ok(isUserLikeVideo);
     }
 
     @PostMapping("/beyourfans")

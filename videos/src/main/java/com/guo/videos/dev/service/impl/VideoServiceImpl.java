@@ -46,6 +46,14 @@ public class VideoServiceImpl implements VideoService {
     @Autowired(required = false)
     private VideoMapperCustom videoMapperCustom;
 
+
+    //随机取得一条视频数据
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Videos selectOneVideo() {
+        return videosMapper.selectOneVideo();
+    }
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public String saveVideo(Videos video) {
@@ -165,25 +173,14 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public PagedResult getAllComments(String videoId, Integer page, Integer pageSize) {
-        PageHelper.startPage(page, pageSize);
-
+    public List<CommentsVO> getAllComments(String videoId) {
         List<CommentsVO> list = commentsMapperCustom.queryComments(videoId);
 
         for (CommentsVO c : list) {
             String timeAgo = TimeAgoUtils.format(c.getCreateTime());
             c.setTimeAgoStr(timeAgo);
         }
-
-        PageInfo<CommentsVO> pageList = new PageInfo<>(list);
-
-        PagedResult grid = new PagedResult();
-        grid.setTotal(pageList.getPages());
-        grid.setRows(list);
-        grid.setPage(page);
-        grid.setRecords(pageList.getTotal());
-
-        return grid;
+        return list;
 
     }
 }

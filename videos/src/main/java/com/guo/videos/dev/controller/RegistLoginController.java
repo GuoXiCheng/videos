@@ -1,9 +1,8 @@
 package com.guo.videos.dev.controller;
 
-import com.guo.videos.Utils.JsonResult;
-import com.guo.videos.Utils.MD5Utils;
-import com.guo.videos.Utils.RedisOperator;
+import com.guo.videos.Utils.*;
 import com.guo.videos.dev.pojo.Users;
+import com.guo.videos.dev.pojo.WXSessionModel;
 import com.guo.videos.dev.pojo.vo.UsersVO;
 import com.guo.videos.dev.service.UserService;
 import org.apache.commons.lang.StringUtils;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -33,7 +34,8 @@ public class RegistLoginController {
         }
 
         //2.判断用户名是否存在
-        boolean usernameIsExist = userService.queryUsernameIsExist(user.getUsername());
+//        boolean usernameIsExist = userService.queryUsernameIsExist(user.getUsername());
+        boolean usernameIsExist = true;
 
         //3.保持用户，注册信息
         if(!usernameIsExist) {
@@ -61,6 +63,8 @@ public class RegistLoginController {
         usersVO.setUserToken(uniqueToken);
         return usersVO;
     }
+
+
 
     @PostMapping("/login")
     public JsonResult login(@RequestBody Users user) throws Exception {
@@ -93,11 +97,38 @@ public class RegistLoginController {
     }
 
     @PostMapping("/wxLogin")
-    public JsonResult wxLogin(String code){
+    public JsonResult wxLogin(String code,String nickName,String faceImage) throws Exception {
+        //获取openid和sessioncode
         String appId = "wxb0c9998dbc9c3896";
         String appSecret = "1f2223f38d8282eebd3435503cf3d12b";
-        String api = String.format("https://api.weixin.qq.com/sns/jscode2session?appid={%s}&secret={%s}&js_code={%s}&grant_type=authorization_code",appId,appSecret,code);
+        String url = "https://api.weixin.qq.com/sns/jscode2session";
+        Map<String,String> param = new HashMap<>();
+        param.put("appid",appId);
+        param.put("secret",appSecret);
+        param.put("js_code",code);
+        param.put("grant_type","authorization_code");
+        String result = HttpClientUtil.doGet(url,param);
 
-        return JsonResult.ok();
+        WXSessionModel wxSessionModel = JsonUtils.jsonToPojo(result,WXSessionModel.class);
+        Users user = userService.queryUser(wxSessionModel.getOpenid());
+        //判断是否需要进行注册
+        if(user == null){
+            user = new Users();
+            user.setId(wxSessionModel.getOpenid());
+            user.setUsername(nickName);
+            user.setNickname(nickName);
+            user.setPassword(MD5Utils.getMD5Str(wxSessionModel.getOpenid()));
+            user.setFaceImage(faceImage);
+            user.setFansCounts(0);
+            user.setFollowCounts(0);
+            user.setReceiveLikeCounts(0);
+            userService.saveUser(user);
+        }
+
+        //存入session到redis
+        redis.set("user-redis-session" + ":" + wxSessionModel.getOpenid(),
+                wxSessionModel.getSession_key(),1000*60*30);
+        return JsonResult.ok(user);
     }
+
 }

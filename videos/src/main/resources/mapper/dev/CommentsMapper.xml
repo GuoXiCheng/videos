@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.guo.videos.dev.pojo.mapper.CommentsMapper">
-    <resultMap id="BaseResultMap" type="com.guo.videos.dev.pojo.Comments">
+<mapper namespace="com.videos.mapper.CommentsMapper">
+    <resultMap id="BaseResultMap" type="com.videos.pojo.Comments">
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="father_comment_id" jdbcType="VARCHAR" property="fatherCommentId" />
         <result column="to_user_id" jdbcType="VARCHAR" property="toUserId" />
@@ -11,7 +11,7 @@
         <result column="comment" jdbcType="LONGVARCHAR" property="comment" />
     </resultMap>
 
-    <insert id="insertOne" parameterType="com.guo.videos.dev.pojo.Comments">
+    <insert id="insertOne" parameterType="com.videos.pojo.Comments">
         insert into comments(
             <trim suffixOverrides=",">
                   id,

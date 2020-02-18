@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.guo.videos.dev.pojo.mapper.SearchRecordsMapper">
-    <resultMap id="BaseResultMap" type="com.guo.videos.dev.pojo.SearchRecords">
+<mapper namespace="com.videos.mapper.SearchRecordsMapper">
+    <resultMap id="BaseResultMap" type="com.videos.pojo.SearchRecords">
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="content" jdbcType="VARCHAR" property="content" />
     </resultMap>
-    <insert id="insertOne" parameterType="com.guo.videos.dev.pojo.SearchRecords">
+    <insert id="insertOne" parameterType="com.videos.pojo.SearchRecords">
         insert into search_records values(#{id},#{content})
     </insert>
 

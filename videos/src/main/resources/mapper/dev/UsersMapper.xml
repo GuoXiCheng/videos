@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.guo.videos.dev.pojo.mapper.UsersMapper">
-    <resultMap id="BaseResultMap" type="com.guo.videos.dev.pojo.Users">
+<mapper namespace="com.videos.mapper.UsersMapper">
+    <resultMap id="BaseResultMap" type="com.videos.pojo.Users">
         <id column="username" jdbcType="VARCHAR" property="username" />
         <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="face_image" jdbcType="VARCHAR" property="faceImage" />
@@ -10,14 +10,14 @@
         <result column="follow_counts" jdbcType="INTEGER" property="followCounts" />
         <result column="receive_like_counts" jdbcType="INTEGER" property="receiveLikeCounts" />
     </resultMap>
-    <select id="selectOne" parameterType="com.guo.videos.dev.pojo.Users" resultMap="BaseResultMap">
+    <select id="selectOne" parameterType="com.videos.pojo.Users" resultMap="BaseResultMap">
         select * from users where id=#{userId}
     </select>
-    <insert id="insertOne" parameterType="com.guo.videos.dev.pojo.Users">
+    <insert id="insertOne" parameterType="com.videos.pojo.Users">
         insert into users(id,username,password,face_image,nickname,fans_counts,follow_counts,receive_like_counts)
         values (#{id},#{username},#{password},#{faceImage},#{nickname},#{fansCounts},#{followCounts},#{receiveLikeCounts})
     </insert>
-    <update id="updateBySelective" parameterType="com.guo.videos.dev.pojo.Users">
+    <update id="updateBySelective" parameterType="com.videos.pojo.Users">
         update users
           <trim prefix="set" suffixOverrides=",">
             <if test="username !='' and username != null">

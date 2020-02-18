@@ -1,7 +1,7 @@
 #开发和生产环节隔离spring:
 spring:
   profiles:
-    active: prod
+    active: dev
   freemarker:
     allow-request-override: false
     cache: false

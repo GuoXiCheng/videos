@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.guo.videos.dev.pojo.mapper.UsersFansMapper">
-    <resultMap id="BaseResultMap" type="com.guo.videos.dev.pojo.UsersFans">
+<mapper namespace="com.videos.mapper.UsersFansMapper">
+    <resultMap id="BaseResultMap" type="com.videos.pojo.UsersFans">
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="user_id" jdbcType="VARCHAR" property="userId" />
         <result column="fan_id" jdbcType="VARCHAR" property="fanId" />
     </resultMap>
-    <insert id="insertOne" parameterType="com.guo.videos.dev.pojo.UsersFans">
+    <insert id="insertOne" parameterType="com.videos.pojo.UsersFans">
         insert into users_fans values(#{id},#{userId},#{fanId})
     </insert>
-    <delete id="deleteByEntity" parameterType="com.guo.videos.dev.pojo.UsersFans">
+    <delete id="deleteByEntity" parameterType="com.videos.pojo.UsersFans">
         delete from users_fans where user_id = #{userId} and fan_id=#{fanId}
     </delete>
-    <select id="selectByEntity" parameterType="com.guo.videos.dev.pojo.UsersFans" resultMap="BaseResultMap">
+    <select id="selectByEntity" parameterType="com.videos.pojo.UsersFans" resultMap="BaseResultMap">
         select * from users_fans where user_id = #{userId} and fan_id=#{fanId}
     </select>
 </mapper>

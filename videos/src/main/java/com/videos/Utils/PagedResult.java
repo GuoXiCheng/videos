@@ -6,7 +6,7 @@ import java.util.List;
 public class PagedResult {
 	
 	private int page;
-	private int total;
+	private int totalPage;
 	private long records;
 	private List<?> rows;
 
@@ -18,12 +18,12 @@ public class PagedResult {
 		this.page = page;
 	}
 
-	public int getTotal() {
-		return total;
+	public int getTotalPage() {
+		return totalPage;
 	}
 
-	public void setTotal(int total) {
-		this.total = total;
+	public void setTotalPage(int total) {
+		this.totalPage = total;
 	}
 
 	public long getRecords() {

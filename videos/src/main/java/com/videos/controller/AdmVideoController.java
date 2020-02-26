@@ -4,7 +4,7 @@ import com.videos.Utils.JsonResult;
 import com.videos.Utils.KeyUtil;
 import com.videos.Utils.PagedResult;
 import com.videos.pojo.Bgm;
-import com.videos.service.VideoAdminService;
+import com.videos.service.AdmVideoService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/video")
-public class VideoAdminController {
+public class AdmVideoController {
 
     @Autowired(required = false)
-    private VideoAdminService videoAdminService;
+    private AdmVideoService admVideoService;
 
 
     //添加bgm页面
@@ -90,7 +90,7 @@ public class VideoAdminController {
         bgm.setAuthor(singerName);
         bgm.setName(songName);
         bgm.setPath(path);
-        videoAdminService.addBgm(bgm);
+        admVideoService.addBgm(bgm);
         return JsonResult.ok();
     }
 
@@ -99,7 +99,7 @@ public class VideoAdminController {
     public ModelAndView queryBgmList(Integer page, Map<String,Object> map){
         if(page ==null || page <=0)
             page = 1;
-        PagedResult result = videoAdminService.queryBgmList(page,5);
+        PagedResult result = admVideoService.queryBgmList(page,5);
         map.put("result",result);
         return new ModelAndView("bgmList",map);
     }
@@ -108,7 +108,7 @@ public class VideoAdminController {
     @PostMapping("/delBgm")
     @ResponseBody
     public JsonResult delBgm(@RequestParam("bgmId") String bgmId){
-        videoAdminService.deleteBgm(bgmId);
+        admVideoService.deleteBgm(bgmId);
         return JsonResult.ok();
     }
 
@@ -117,7 +117,7 @@ public class VideoAdminController {
     public ModelAndView reportList(Integer page,Map<String,Object> map){
         if(page == null || page <= 0)
             page = 1;
-        PagedResult result = videoAdminService.queryReportList(page,5);
+        PagedResult result = admVideoService.queryReportList(page,5);
         map.put("result",result);
         return new ModelAndView("reportList",map);
     }
@@ -125,7 +125,7 @@ public class VideoAdminController {
     @PostMapping("/forbidVideo")
     @ResponseBody
     public JsonResult forbidVideo(@RequestParam("videoId") String videoId,@RequestParam("statusCode") Integer statusCode){
-        videoAdminService.updateVideoStatus(videoId, statusCode);
+        admVideoService.updateVideoStatus(videoId, statusCode);
         return JsonResult.ok();
     }
 

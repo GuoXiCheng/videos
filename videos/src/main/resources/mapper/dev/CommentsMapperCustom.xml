@@ -12,12 +12,16 @@
         <result column="toNickname" property="toNickname" jdbcType="VARCHAR" />
     </resultMap>
 
-    <select id="queryComments" resultMap="BaseResultMap" parameterType="String">
+    <select id="queryComments" resultMap="BaseResultMap">
         select c.*,u.face_image as face_image,u.nickname,tu.nickname as toNickname
         from comments c
                  left join users u on c.from_user_id = u.id
                  left join users tu on c.to_user_id = tu.id
-        where c.video_id = #{videoId} order by c.create_time desc
+        where c.video_id = #{videoId} order by c.create_time desc limit #{page},#{pageSize}
+    </select>
+
+    <select id="queryCommentsCount" resultType="java.lang.Integer">
+        select count(*) from comments
     </select>
 
 

@@ -1,16 +1,13 @@
 package com.videos.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.videos.Utils.KeyUtil;
 import com.videos.Utils.PagedResult;
 import com.videos.Utils.TimeAgoUtils;
 import com.videos.mapper.*;
 import com.videos.pojo.Comments;
-import com.videos.pojo.SearchRecords;
 import com.videos.pojo.UsersLikeVideos;
 import com.videos.pojo.Videos;
-import com.videos.service.VideoService;
+import com.videos.service.WxVideoService;
 import com.videos.vo.CommentsVO;
 import com.videos.vo.VideosVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class VideoServiceImpl implements VideoService {
+public class WxVideoServiceImpl implements WxVideoService {
 
 
     @Autowired(required = false)
@@ -73,33 +70,53 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public PagedResult getAllVideos(Videos video, Integer isSaveRecord, Integer page, Integer pageSize) {
-        //保存热搜词
-        String desc = video.getVideoDesc();
-        String userId = video.getUserId();
-        if(isSaveRecord!=null && isSaveRecord==1) {
-            SearchRecords record = new SearchRecords();
-            String recordId = KeyUtil.genUniqueKey();
-            record.setId(recordId);
-            record.setContent(desc);
-            searchRecordsMapper.insertOne(record);
-        }
-        PageHelper.startPage(page,pageSize);
-        List<VideosVO> list = videoMapperCustom.queryAllVideos(desc,userId);
-        PageInfo<VideosVO> pageList = new PageInfo<>(list);
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public PagedResult queryAllVideos(Integer page,Integer pageSize){
+        List<VideosVO> list = videoMapperCustom.queryAllVideos((page-1)*pageSize,pageSize);
+        Integer records = videoMapperCustom.queryCount();
+        Integer totalPage = records % pageSize ==0 ? (records / pageSize) : ((records / pageSize) + 1);
+
         PagedResult pagedResult = new PagedResult();
         pagedResult.setPage(page);
-        pagedResult.setTotal(pageList.getPages());
+        pagedResult.setRecords(records);
         pagedResult.setRows(list);
-        pagedResult.setRecords(pageList.getTotal());
+        pagedResult.setTotalPage(totalPage);
         return pagedResult;
     }
+
+//    @Override
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public PagedResult getAllVideos(Videos video, Integer isSaveRecord, Integer page, Integer pageSize) {
+//        //保存热搜词
+//        String desc = video.getVideoDesc();
+//        String userId = video.getUserId();
+//        if(isSaveRecord!=null && isSaveRecord==1) {
+//            SearchRecords record = new SearchRecords();
+//            String recordId = KeyUtil.genUniqueKey();
+//            record.setId(recordId);
+//            record.setContent(desc);
+//            searchRecordsMapper.insertOne(record);
+//        }
+//        PageHelper.startPage(page,pageSize);
+//        List<VideosVO> list = videoMapperCustom.queryAllVideos(desc,userId);
+//        PageInfo<VideosVO> pageList = new PageInfo<>(list);
+//        PagedResult pagedResult = new PagedResult();
+//        pagedResult.setPage(page);
+//        pagedResult.setTotalPage(pageList.getPages());
+//        pagedResult.setRows(list);
+//        pagedResult.setRecords(pageList.getTotal());
+//        return pagedResult;
+//    }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<String> getHotWords() {
         return searchRecordsMapper.getHotWords();
+    }
+
+    @Override
+    public List<VideosVO> getVideoListByDesc(String videoDesc) {
+        return videoMapperCustom.getVideoListByDesc(videoDesc);
     }
 
     @Override
@@ -116,7 +133,7 @@ public class VideoServiceImpl implements VideoService {
         videosMapper.addVideoLikeCount(videoId);
 
         //3.用户受喜欢数量的累加
-        usersMapper.addReceiveLikeCount(userId);
+        usersMapper.addReceiveLikeCount(videoCreaterId);
     }
 
     @Override
@@ -131,34 +148,51 @@ public class VideoServiceImpl implements VideoService {
         videosMapper.reduceVideoLikeCount(videoId);
 
         //3.用户受喜欢数量的累减
-        usersMapper.reduceReceiveLikeCount(userId);
+        usersMapper.reduceReceiveLikeCount(videoCreaterId);
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public PagedResult queryMyLikeVideos(String userId, Integer page, Integer pageSize) {
-        PageHelper.startPage(page,pageSize);
-        List<VideosVO> list = videoMapperCustom.queryMyLikeVideos(userId);
-        PageInfo<VideosVO> pageList = new PageInfo<>(list);
+    public PagedResult queryMyWorkVideos(String userId,Integer page,Integer pageSize){
+        List<VideosVO> list = videoMapperCustom.queryMyWorkVideos(userId,(page-1)*pageSize,pageSize);
+        Integer records = videoMapperCustom.queryCountMyWork(userId);
+        Integer totalPage = records % pageSize ==0 ? (records / pageSize) : ((records / pageSize) + 1);
+
         PagedResult pagedResult = new PagedResult();
-        pagedResult.setTotal(pageList.getPages());
-        pagedResult.setRows(list);
         pagedResult.setPage(page);
-        pagedResult.setRecords(pageList.getTotal());
+        pagedResult.setRecords(records);
+        pagedResult.setRows(list);
+        pagedResult.setTotalPage(totalPage);
         return pagedResult;
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public PagedResult queryMyFollowVideos(String userId, Integer page, int pageSize) {
-        PageHelper.startPage(page,pageSize);
-        List<VideosVO> list = videoMapperCustom.queryMyFollowVideos(userId);
-        PageInfo<VideosVO> pageList = new PageInfo<>(list);
+    public PagedResult queryMyLikeVideos(String userId, Integer page, Integer pageSize) {
+        List<VideosVO> list = videoMapperCustom.queryMyLikeVideos(userId,(page-1)*pageSize,pageSize);
+        Integer records = videoMapperCustom.queryCountMyLike(userId);
+        Integer totalPage = records % pageSize ==0 ? (records / pageSize) : ((records / pageSize) + 1);
+
         PagedResult pagedResult = new PagedResult();
-        pagedResult.setTotal(pageList.getPages());
-        pagedResult.setRows(list);
         pagedResult.setPage(page);
-        pagedResult.setRecords(pageList.getTotal());
+        pagedResult.setRecords(records);
+        pagedResult.setRows(list);
+        pagedResult.setTotalPage(totalPage);
+        return pagedResult;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public PagedResult queryMyFollowVideos(String userId, Integer page, Integer pageSize) {
+        List<VideosVO> list = videoMapperCustom.queryMyFollowVideos(userId,(page-1)*pageSize,pageSize);
+        Integer records = videoMapperCustom.queryCountMyFollow(userId);
+        Integer totalPage = records % pageSize ==0 ? (records / pageSize) : ((records / pageSize) + 1);
+
+        PagedResult pagedResult = new PagedResult();
+        pagedResult.setPage(page);
+        pagedResult.setRecords(records);
+        pagedResult.setRows(list);
+        pagedResult.setTotalPage(totalPage);
         return pagedResult;
     }
 
@@ -173,14 +207,20 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public List<CommentsVO> getAllComments(String videoId) {
-        List<CommentsVO> list = commentsMapperCustom.queryComments(videoId);
-
+    public PagedResult getAllComments(String videoId,Integer page,Integer pageSize) {
+        List<CommentsVO> list = commentsMapperCustom.queryComments(videoId,(page-1)*pageSize,pageSize);
+        Integer records = commentsMapperCustom.queryCommentsCount();
+        Integer totalPage = records % pageSize ==0 ? (records / pageSize) : ((records / pageSize) + 1);
         for (CommentsVO c : list) {
             String timeAgo = TimeAgoUtils.format(c.getCreateTime());
             c.setTimeAgoStr(timeAgo);
         }
-        return list;
+        PagedResult pagedResult = new PagedResult();
+        pagedResult.setPage(page);
+        pagedResult.setRecords(records);
+        pagedResult.setRows(list);
+        pagedResult.setTotalPage(totalPage);
+        return pagedResult;
 
     }
 }

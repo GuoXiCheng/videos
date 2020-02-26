@@ -21,7 +21,7 @@
     <select id="selectCounts" resultType="java.lang.Integer">
         select count(*) from users_report
     </select>
-    <select id="updateVideoStatus">
+    <update id="updateVideoStatus">
         update videos set status = #{statusCode} where id= #{videoId}
-    </select>
+    </update>
 </mapper>

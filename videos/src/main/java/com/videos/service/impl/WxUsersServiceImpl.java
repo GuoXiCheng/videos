@@ -2,15 +2,15 @@ package com.videos.service.impl;
 
 
 import com.videos.Utils.KeyUtil;
-import com.videos.pojo.Users;
-import com.videos.pojo.UsersFans;
-import com.videos.pojo.UsersLikeVideos;
 import com.videos.mapper.UsersFansMapper;
 import com.videos.mapper.UsersLikeVideosMapper;
 import com.videos.mapper.UsersMapper;
 import com.videos.mapper.UsersReportMapper;
+import com.videos.pojo.Users;
+import com.videos.pojo.UsersFans;
+import com.videos.pojo.UsersLikeVideos;
 import com.videos.pojo.UsersReport;
-import com.videos.service.UserService;
+import com.videos.service.WxUsersService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class WxUsersServiceImpl implements WxUsersService {
 
     @Autowired(required = false)
     private UsersMapper usersMapper;

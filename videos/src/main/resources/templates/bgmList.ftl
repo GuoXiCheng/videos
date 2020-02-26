@@ -34,7 +34,7 @@
                     <td>${row.id}</td>
                     <td>${row.author}</td>
                     <td>${row.name}</td>
-                    <td><a href="http://192.168.129.1:8080${row.path}" style="color:deepskyblue">点我播放</a></td>
+                    <td><a href="https://www.guoxicheng.top/videos${row.path}" style="color:deepskyblue">点我播放</a></td>
                     <td><a onclick="delBgm(this)" href="#" style="border:solid 1px">删除</a></td>
                 </tr>
                 </#list>
@@ -50,24 +50,24 @@
                     </li>
                 <#else>
                     <li>
-                        <a href="http://192.168.129.1:8080/video/queryBgmList?page=${result.page-1}">上一页</a>
+                        <a href="https://www.guoxicheng.top/videos/video/queryBgmList?page=${result.page-1}">上一页</a>
                     </li>
                 </#if>
 
-                    <#list 1..result.total as index>
+                    <#list 1..result.totalPage as index>
                         <#if result.page == index>
                             <li class="disabled"><a href="#">${index}</a></li>
                         <#else>
-                            <li><a href="http://192.168.129.1:8080/video/queryBgmList?page=${index}">${index}</a></li>
+                            <li><a href="https://www.guoxicheng.top/videos/video/queryBgmList?page=${index}">${index}</a></li>
                         </#if>
                     </#list>
-                <#if result.page gte result.total>
+                <#if result.page gte result.totalPage>
                     <li class="disabled">
                         <a href="#">下一页</a>
                     </li>
                 <#else>
                     <li>
-                        <a href="http://192.168.129.1:8080/video/queryBgmList?page=${result.page+1}">下一页</a>
+                        <a href="https://www.guoxicheng.top/videos/video/queryBgmList?page=${result.page+1}">下一页</a>
                     </li>
                 </#if>
                 </ul>
@@ -88,7 +88,7 @@
         $.ajax({
             type:"post",
             dataType:"json",
-            url:"/video/delBgm",
+            url:"/videos/video/delBgm",
             data:formdata,
             processData:false,
             contentType:false,

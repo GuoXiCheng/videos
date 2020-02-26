@@ -41,7 +41,7 @@
                     <td>${row.content}</td>
                     <td>${row.dealUsername}</td>
                     <td>${row.dealVideoId}</td>
-                    <td><a href="http://192.168.129.1:8080/${row.videoPath}" style="color:deepskyblue">点我播放</a></td>
+                    <td><a href="https://www.guoxicheng.top/videos${row.videoPath}" style="color:deepskyblue">点我播放</a></td>
                     <#if row.status == 0>
                         <td>正常</td>
                     <#else>
@@ -69,24 +69,24 @@
                     </li>
                 <#else>
                     <li>
-                        <a href="http://192.168.129.1:8080/video/queryBgmList?page=${result.page-1}">上一页</a>
+                        <a href="https://www.guoxicheng.top/videos/video/queryBgmList?page=${result.page-1}">上一页</a>
                     </li>
                 </#if>
 
-                    <#list 1..result.total as index>
+                    <#list 1..result.totalPage as index>
                         <#if result.page == index>
                             <li class="disabled"><a href="#">${index}</a></li>
                         <#else>
-                            <li><a href="http://192.168.129.1:8080/video/reportList?page=${index}">${index}</a></li>
+                            <li><a href="https://www.guoxicheng.top/videos/video/reportList?page=${index}">${index}</a></li>
                         </#if>
                     </#list>
-                <#if result.page gte result.total>
+                <#if result.page gte result.totalPage>
                     <li class="disabled">
                         <a href="#">下一页</a>
                     </li>
                 <#else>
                     <li>
-                        <a href="http://192.168.129.1:8080/video/reportList?page=${result.page+1}">下一页</a>
+                        <a href="https://www.guoxicheng.top/videos/video/reportList?page=${result.page+1}">下一页</a>
                     </li>
                 </#if>
                 </ul>
@@ -105,7 +105,7 @@ function videoAction(node) {
     $.ajax({
         type:"post",
         dataType:"json",
-        url:"/video/forbidVideo",
+        url:"/videos/video/forbidVideo",
         data:{
             videoId:videoId,
             statusCode:statusCode

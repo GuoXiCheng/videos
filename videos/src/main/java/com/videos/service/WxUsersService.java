@@ -3,7 +3,7 @@ package com.videos.service;
 import com.videos.pojo.Users;
 import com.videos.pojo.UsersReport;
 
-public interface UserService {
+public interface WxUsersService {
     //根据id检索用户
     Users queryUser(String userId);
 

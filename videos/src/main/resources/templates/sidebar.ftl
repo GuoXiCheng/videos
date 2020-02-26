@@ -27,7 +27,7 @@
         </a>
     </li>
     <li>
-        <a href="http://192.168.129.1:8080/users/showList">
+        <a href="https://www.guoxicheng.top/videos/users/showList">
             <span class="glyphicon glyphicon-user f12" aria-hidden="true"></span>
             <span>用户信息</span>
             <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>
@@ -41,22 +41,22 @@
         </a>
         <ul class="nav-left-container-small">
             <li>
-                <a class="J_menuItem" href="http://192.168.129.1:8080/video/queryBgmList">bgm列表</a>
+                <a class="J_menuItem" href="https://www.guoxicheng.top/videos/video/queryBgmList">bgm列表</a>
             </li>
             <li>
-                <a class="J_menuItem" href="http://192.168.129.1:8080/video/showAddBgm">添加bgm</a>
+                <a class="J_menuItem" href="https://www.guoxicheng.top/videos/video/showAddBgm">添加bgm</a>
             </li>
         </ul>
     </li>
     <li>
-        <a href="http://192.168.129.1:8080/video/reportList">
+        <a href="https://www.guoxicheng.top/videos/video/reportList">
             <span class="glyphicon glyphicon-exclamation-sign f12" aria-hidden="true"></span>
             <span>举报管理</span>
             <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>
         </a>
     </li>
     <li>
-        <a href="http://192.168.129.1:8080/users/logout">
+        <a href="https://www.guoxicheng.top/videos/users/logout">
             <span class="glyphicon glyphicon-log-out f12" aria-hidden="true"></span>
             <span>退出登录</span>
             <span class="glyphicon glyphicon-menu-right f12 fr" aria-hidden="true"></span>

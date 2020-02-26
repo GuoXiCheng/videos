@@ -3,7 +3,7 @@ package com.videos.service;
 import com.videos.Utils.PagedResult;
 import com.videos.pojo.Bgm;
 
-public interface VideoAdminService {
+public interface AdmVideoService {
     PagedResult queryReportList(Integer page,Integer pageSize);
 
     void updateVideoStatus(String videoId,Integer statusCode);

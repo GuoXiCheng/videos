@@ -4,7 +4,7 @@ package com.videos.controller;
 import com.videos.Utils.JsonResult;
 import com.videos.Utils.PagedResult;
 import com.videos.pojo.AdminUser;
-import com.videos.service.UsersAdminService;
+import com.videos.service.AdmUsersService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,9 +21,9 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/users")
-public class UsersAdminController {
+public class AdmUsersController {
     @Autowired(required = false)
-    private UsersAdminService usersAdminService;
+    private AdmUsersService admUsersService;
 
     //登录
     @GetMapping("/login")
@@ -53,7 +53,7 @@ public class UsersAdminController {
     public ModelAndView showList(Integer page,Map<String,Object> map){
         if(page == null || page <= 0)
             page = 1;
-        PagedResult result = usersAdminService.queryUsers(page,5);
+        PagedResult result = admUsersService.queryUsers(page,5);
         if(result != null)
             map.put("result",result);
         return new ModelAndView("userinfo",map);

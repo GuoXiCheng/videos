@@ -1,7 +1,7 @@
 #开发和生产环节隔离spring:
 spring:
   profiles:
-    active: dev
+    active: prod
   freemarker:
     allow-request-override: false
     cache: false
@@ -13,8 +13,11 @@ spring:
   servlet:
     multipart:
       max-request-size: 100MB
-      max-file-size: 20MB
+      max-file-size: 25MB
+      location: C:/guoxicheng_videos_dev/temp
+
 
 mybatis:
   mapper-locations: classpath:mapper/dev/*.xml,classpath*:mapper/admin/*.xml
+
 

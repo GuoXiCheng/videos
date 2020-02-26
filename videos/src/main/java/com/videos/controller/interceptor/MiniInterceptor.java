@@ -27,19 +27,21 @@ public class MiniInterceptor implements HandlerInterceptor {
 			throws Exception {
 		String userId = request.getHeader("headerUserId");
 		String userToken = request.getHeader("headerUserToken");
+		System.out.println("进入拦截器");
 		if(StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(userToken)) {
 			String uniqueToken = redis.get(USER_REDIS_SESSION + ":" + userId);
 			if(StringUtils.isEmpty(uniqueToken) && StringUtils.isBlank(uniqueToken)) {
 				System.out.println("请登录");
-				returnErrorResponse(response,new JsonResult().errorTokenMsg("请登录..."));
+				returnErrorResponse(response, new JsonResult().errorTokenMsg("请登录..."));
 				return false;
-			}else {
-				if(!uniqueToken.equals(userToken)) {
-					System.out.println("账户被挤出...");
-					returnErrorResponse(response,new JsonResult().errorTokenMsg("账号被挤出..."));
-					return false;
-				}
 			}
+//			}else {
+//				if(!uniqueToken.equals(userToken)) {
+//					System.out.println("账户被挤出...");
+//					returnErrorResponse(response,new JsonResult().errorTokenMsg("账号被挤出..."));
+//					return false;
+//				}
+//			}
 		}else {
 			System.out.println("请登录");
 			returnErrorResponse(response,new JsonResult().errorTokenMsg("请登录..."));

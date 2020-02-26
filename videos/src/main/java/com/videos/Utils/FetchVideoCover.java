@@ -84,14 +84,14 @@ public class FetchVideoCover {
 		FetchVideoCover videoInfo = new FetchVideoCover("C:\\ffmpeg\\bin\\ffmpeg.exe");
 		for(int i=0; i<videoPath.length; i++){
 			String path = videoPath[i].split("\\.")[0];
-			videoInfo.getCover("C:/video/"+videoPath[i],"C:/video/" + path +".jpg");
+			videoInfo.getCover("C:/videos/"+videoPath[i],"C:/videos/" + path +".jpg");
 		}
 
 	}
 
 	public static String[] getFileName(){
 		String videoPath[] = new String[45];
-		String path = "C:/video";
+		String path = "C:/videos";
 		File f= new File(path);
 		if(!f.exists()){
 			return null;

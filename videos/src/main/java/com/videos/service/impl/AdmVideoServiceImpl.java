@@ -4,8 +4,8 @@ import com.videos.Utils.PagedResult;
 import com.videos.mapper.BgmAdminMapper;
 import com.videos.mapper.VideoAdminMapper;
 import com.videos.pojo.Bgm;
+import com.videos.service.AdmVideoService;
 import com.videos.vo.Reports;
-import com.videos.service.VideoAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class VideoAdminServiceImpl implements VideoAdminService {
+public class AdmVideoServiceImpl implements AdmVideoService {
 
     @Autowired(required = false)
     private BgmAdminMapper bgmAdminMapper;
@@ -36,12 +36,12 @@ public class VideoAdminServiceImpl implements VideoAdminService {
         List<Bgm> bgmList = bgmAdminMapper.selectAll((page-1)*pageSize,pageSize);
 
         Integer Records = bgmAdminMapper.selectCount();
-        Integer total = Records % pageSize ==0 ? (Records / pageSize) : ((Records / pageSize) + 1);
+        Integer totalPage = Records % pageSize ==0 ? (Records / pageSize) : ((Records / pageSize) + 1);
         PagedResult pagedResult = new PagedResult();
         pagedResult.setPage(page);
         pagedResult.setRecords(Records);
         pagedResult.setRows(bgmList);
-        pagedResult.setTotal(total);
+        pagedResult.setTotalPage(totalPage);
 
         return pagedResult;
     }
@@ -65,7 +65,7 @@ public class VideoAdminServiceImpl implements VideoAdminService {
 
         result.setPage(page);
         result.setRecords(Records);
-        result.setTotal(total);
+        result.setTotalPage(total);
         result.setRows(reportsList);
         return result;
     }

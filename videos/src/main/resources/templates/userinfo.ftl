@@ -53,24 +53,24 @@
                     </li>
                 <#else>
                     <li>
-                        <a href="http://192.168.129.1:8080/users/showList?page=${result.page-1}">上一页</a>
+                        <a href="https://www.guoxicheng.top/videos/users/showList?page=${result.page-1}">上一页</a>
                     </li>
                 </#if>
 
-                    <#list 1..result.total as index>
+                    <#list 1..result.totalPage as index>
                         <#if result.page == index>
                             <li class="disabled"><a href="#">${index}</a></li>
                         <#else>
-                            <li><a href="http://192.168.129.1:8080/users/showList?page=${index}">${index}</a></li>
+                            <li><a href="https://www.guoxicheng.top/videos/users/showList?page=${index}">${index}</a></li>
                         </#if>
                     </#list>
-                <#if result.page gte result.total>
+                <#if result.page gte result.totalPage>
                     <li class="disabled">
                         <a href="#">下一页</a>
                     </li>
                 <#else>
                     <li>
-                        <a href="http://192.168.129.1:8080/users/showList?page=${result.page+1}">下一页</a>
+                        <a href="https://www.guoxicheng.top/videos/users/showList?page=${result.page+1}">下一页</a>
                     </li>
                 </#if>
             </ul>

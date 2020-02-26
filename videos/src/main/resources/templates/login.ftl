@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <link href="https://cdn.bootcss.com/twitter-bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../static/js/jquery.min.js"></script>
     <title>登录</title>
 </head>
 <body style="padding-top: 200px">
@@ -39,12 +39,12 @@
             //几个参数需要注意一下
             type: "POST",//方法类型
             dataType: "json",//预期服务器返回的数据类型
-            url: "/users/login" ,//url
+            url: "/videos/users/login" ,//url
             data: $('#loginForm').serialize(),
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.status == 200 && result.msg == "OK") {
-                    window.location.href = "http://192.168.129.1:8080/users/showList";
+                    window.location.href = "https://www.guoxicheng.top/videos/users/showList";
                 }
             },
             error : function() {

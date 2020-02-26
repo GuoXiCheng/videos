@@ -3,7 +3,7 @@ package com.videos.controller;
 import com.videos.Utils.JsonResult;
 import com.videos.pojo.Users;
 import com.videos.pojo.UsersReport;
-import com.videos.service.UserService;
+import com.videos.service.WxUsersService;
 import com.videos.vo.PublisherVideoVO;
 import com.videos.vo.UsersVO;
 import org.apache.commons.io.IOUtils;
@@ -20,10 +20,10 @@ import java.io.InputStream;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class WxUsersController {
 
     @Autowired
-    private UserService userService;
+    private WxUsersService wxUsersService;
 
     //上传用户头像
     @PostMapping("/uploadFace")
@@ -78,15 +78,15 @@ public class UserController {
         Users user = new Users();
         user.setId(userId);
         user.setFaceImage(uploadPathDB);
-        userService.updateUserInfo(user);
+        wxUsersService.updateUserInfo(user);
         return JsonResult.ok(uploadPathDB);
     }
 
-    @GetMapping("/queryUserInfo")
+    @PostMapping("/queryUserInfo")
     public JsonResult queryUserInfo(String userId){
         if(StringUtils.isBlank(userId))
             return JsonResult.errorMsg("用户id不能为空");
-        Users userInfo = userService.queryUserInfo(userId);
+        Users userInfo = wxUsersService.queryUserInfo(userId);
         return JsonResult.ok(userInfo);
     }
 
@@ -96,11 +96,11 @@ public class UserController {
         if(StringUtils.isBlank(userId))
             return JsonResult.errorMsg("用户id不能为空");
 
-        Users userInfo = userService.queryUserInfo(userId);
+        Users userInfo = wxUsersService.queryUserInfo(userId);
 
         UsersVO usersVO = new UsersVO();
         BeanUtils.copyProperties(userInfo,usersVO);
-        usersVO.setFollow(userService.queryIfFollow(userId,fanId));
+        usersVO.setFollow(wxUsersService.queryIfFollow(userId,fanId));
         return JsonResult.ok(usersVO);
     }
 
@@ -110,12 +110,16 @@ public class UserController {
             return JsonResult.errorMsg("发布者id不能为空");
 
         //1.查询视频发布者信息
-        Users userInfo = userService.queryUserInfo(publisherId);
+        Users userInfo = wxUsersService.queryUserInfo(publisherId);
         UsersVO publisher = new UsersVO();
         BeanUtils.copyProperties(userInfo,publisher);
 
         //2.查询当前登录者和视频点赞关系
-        boolean userLikeVideo = userService.isUserLikeVideo(loginUserId,videoId);
+        boolean userLikeVideo = false;
+        if(loginUserId != "" && loginUserId !=null){
+            userLikeVideo = wxUsersService.isUserLikeVideo(loginUserId,videoId);
+        }
+
 
         PublisherVideoVO bean = new PublisherVideoVO();
 
@@ -127,7 +131,7 @@ public class UserController {
 
     @PostMapping("/queryIsLikeVideo")
     public JsonResult queryIsLikeVideo(String userId,String videoId){
-        boolean isUserLikeVideo = userService.isUserLikeVideo(userId,videoId);
+        boolean isUserLikeVideo = wxUsersService.isUserLikeVideo(userId,videoId);
         return JsonResult.ok(isUserLikeVideo);
     }
 
@@ -135,7 +139,7 @@ public class UserController {
     public JsonResult beyourfans(String userId,String fanId){
         if(StringUtils.isBlank(userId) || StringUtils.isBlank(fanId))
             return JsonResult.errorMsg("用户或粉丝id不能为空");
-        userService.saveUserFanRelation(userId,fanId);
+        wxUsersService.saveUserFanRelation(userId,fanId);
         return JsonResult.ok("关注成功!");
     }
 
@@ -143,14 +147,14 @@ public class UserController {
     public JsonResult dontbeyourfans(String userId,String fanId){
         if(StringUtils.isBlank(userId) || StringUtils.isBlank(fanId))
             return JsonResult.errorMsg("用户或粉丝id不能为空");
-        userService.deleteUserFanRelation(userId,fanId);
+        wxUsersService.deleteUserFanRelation(userId,fanId);
         return JsonResult.ok("取消关注成功!");
     }
 
     @PostMapping("/reportUser")
     public JsonResult reportUser(@RequestBody UsersReport usersReport){
         //保存举报信息
-        userService.reportUser(usersReport);
+        wxUsersService.reportUser(usersReport);
 
         return JsonResult.ok("举报成功");
     }

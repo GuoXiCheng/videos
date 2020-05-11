@@ -14,7 +14,7 @@ public interface VideoMapperCustom {
 
     List<VideosVO> getVideoListByDesc(@Param("videoDesc") String videoDesc);
 
-    void insertHotWord(@Param("videoDesc") String videoDesc);
+//    void insertHotWord(@Param("videoDesc") String videoDesc);
 
     Integer queryCount();
 

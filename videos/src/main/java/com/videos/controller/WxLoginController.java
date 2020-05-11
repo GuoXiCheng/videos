@@ -51,15 +51,15 @@ public class WxLoginController {
         }
 
         //存入session到redis
-        redis.set("user-redis-session" + ":" + wxSessionModel.getOpenid(),
-                wxSessionModel.getSession_key(),1000*60*30);
+//        redis.set("user-redis-session" + ":" + wxSessionModel.getOpenid(),
+//                wxSessionModel.getSession_key(),1000*60*30);
         return JsonResult.ok(user);
     }
 
     //注销登录
     @PostMapping("/logout")
     public JsonResult logout(String userId) throws Exception {
-        redis.del("user-redis-session" + ":" + userId);
+//        redis.del("user-redis-session" + ":" + userId);
         return JsonResult.ok();
     }
 

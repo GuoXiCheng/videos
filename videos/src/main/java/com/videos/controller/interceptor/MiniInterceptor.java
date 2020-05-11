@@ -18,9 +18,9 @@ public class MiniInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	public RedisOperator redis;
-	
+
 	public static final String USER_REDIS_SESSION = "user-redis-session";
-	
+
 	//在controller调用之前拦截请求
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -29,7 +29,8 @@ public class MiniInterceptor implements HandlerInterceptor {
 		String userToken = request.getHeader("headerUserToken");
 		System.out.println("进入拦截器");
 		if(StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(userToken)) {
-			String uniqueToken = redis.get(USER_REDIS_SESSION + ":" + userId);
+//			String uniqueToken = redis.get(USER_REDIS_SESSION + ":" + userId);
+			String uniqueToken = "token";
 			if(StringUtils.isEmpty(uniqueToken) && StringUtils.isBlank(uniqueToken)) {
 				System.out.println("请登录");
 				returnErrorResponse(response, new JsonResult().errorTokenMsg("请登录..."));
@@ -47,15 +48,15 @@ public class MiniInterceptor implements HandlerInterceptor {
 			returnErrorResponse(response,new JsonResult().errorTokenMsg("请登录..."));
 			return false;
 		}
-			
+
 		return true;
 		//返回false，请求被拦截返回
 		//返回true，请求ok，可以继续执行
 
 	}
 
-	
-	public void returnErrorResponse(HttpServletResponse response,JsonResult result) 
+
+	public void returnErrorResponse(HttpServletResponse response,JsonResult result)
 		throws IOException,UnsupportedEncodingException{
 		OutputStream out = null;
 		try {
@@ -70,7 +71,7 @@ public class MiniInterceptor implements HandlerInterceptor {
 			}
 		}
 	}
-	
+
 	//请求controller之后，渲染视图之前
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
